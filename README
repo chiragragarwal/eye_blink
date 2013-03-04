@@ -1,0 +1,24 @@
+Author : Chirag R. Agarwal
+Email : chirag.agarwalr@gmail.com
+Project Name : Blinking Eye using MEL
+Site : http://agarwalchirag.wordpress.com
+
+This is a mel script to create an eye with a blinking mechanism in Autodesk Maya. The blink delay can be set by the user. He can also set if he wants to blink the eye just once or for the entire shot in loop.
+
+There are 2 mel scripts namely :
+1) createEye.mel
+2) eyeBlink.mel
+
+To be able to run these scripts, first type in the following commands in the MEL command line :
+
+rehash;
+source createEye;
+source eyeBlink;
+
+Once this is done, type in "createEye()". This should create an eye with a locator that is used as a control.
+Next, type in "eyeBlink()". This should pop up a dialog box (included in the files) that asks the user to set the blinking rate of the eye.
+He can also choose whether this blink is just once or for the entire timeline.
+Click on the appropriate button. Select the locator and you can see the keyframes set in the timeline.
+
+You can now go through the timeline to check the eye blink through the frames. A screen shot of this is also included in the files.
+

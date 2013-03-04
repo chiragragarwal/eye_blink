@@ -1,0 +1,54 @@
+global proc eyeBlink()
+{
+	if(`window -exists eyeWindow`)
+		deleteUI -window eyeWindow;
+		
+	window -rtf true -title "Set the Blink Delay" eyeWindow;
+	columnLayout;
+	
+	intSliderGrp -label "Blink Delay" -field true blinkDelay;
+	 
+	rowLayout -nc 2;
+	button -c "findValue" -al "right" -label "Set to Blink Once"; 
+	button -c "findValue_loop" -al "right" -label "Set to Blink in Loop"; 
+	
+	showWindow eyeWindow;
+		
+}
+
+global proc findValue()	//for blink once
+{
+	int $blinkDelay = `intSliderGrp -q -value "blinkDelay"`;
+	
+	float $time = `currentTime -q`;
+	string $blink = "eyeControl.blink";
+	float $blinkCurrent = `getAttr $blink`;
+	
+	cutKey $blink;
+	
+	setKeyframe -v $blinkCurrent -t $time -at $blink $blink;
+	setKeyframe -v 0 -t ($time + $blinkDelay/2) -at $blink $blink;
+	setKeyframe -v $blinkCurrent -t ($time + $blinkDelay) -at $blink $blink;
+}	
+
+global proc findValue_loop()	//for loop blink
+{
+	int $blinkDelay = `intSliderGrp -q -value "blinkDelay"`;
+	
+	float $time = `currentTime -q`;
+	string $blink = "eyeControl.blink";
+	float $blinkCurrent = `getAttr $blink`;
+	
+	int $total_frames = `playbackOptions -q -animationEndTime`;
+	
+	cutKey $blink;
+	
+	while($time < $total_frames)
+	{
+		setKeyframe -v $blinkCurrent -t $time -at $blink $blink;
+		setKeyframe -v 0 -t ($time + $blinkDelay/2) -at $blink $blink;
+		setKeyframe -v $blinkCurrent -t ($time + $blinkDelay) -at $blink $blink;
+		
+		$time = $time + $blinkDelay;
+	}
+}	

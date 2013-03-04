@@ -1,0 +1,17 @@
+global proc createEye()	//create the eye and locator control
+{
+	sphere -n eyeBall -r 1 -ssw 0 -esw 360 -p 0 0 0 -ax 0 1 0;
+	sphere -n eyeLid -r 1.1 -ssw 60 -esw 300 -p 0 0 0 -ax 0 0 1;
+	
+	spaceLocator;
+	rename "locator1" eyeControl;
+	move 10 0 0 eyeControl;
+	
+	addAttr -ln blink -at "float" -min 0 -max 10 -dv 10 eyeControl;
+	setAttr -keyable true eyeControl.blink;
+	
+	//keying the blink value to sweep values of eyelids
+	expression -n toplid -o makeNurbSphere2 -s "ssw = eyeControl.blink * 6";
+	expression -n bottomlid -o makeNurbSphere2 -s "esw = 360 - eyeControl.blink * 6";
+	
+}
